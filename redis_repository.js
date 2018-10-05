@@ -40,7 +40,7 @@ module.exports.makeRepo = function(client) {
       });
     },
     deleteMessage: function(username, message, ts) {
-      const msg = { username: `${username}`, message: `${message}`, ts: ts };
+      const msg = { username: `${username}`, message: `${message}`, ts: `${ts}` };
       const data = JSON.stringify(msg);
 
       return new Promise((resolve, reject) => {

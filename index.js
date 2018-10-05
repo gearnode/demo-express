@@ -149,6 +149,19 @@ app.post('/messages', function(req, res) {
     });
 });
 
+app.post('/messages/delete', function(req, res) {
+  console.log("sess user:", req.session.currentUser.username, " user:", req.body.username)
+  if  (req.session.currentUser.username !== req.body.username) {
+    res.send('invalid access');
+    return;
+  }
+
+  repo
+    .deleteMessage(req.session.currentUser.username, req.body.message, req.body.ts)
+    .then(x => res.redirect('/'))
+    .catch(x => res.send('internal server error'))
+})
+
 createServer(
   {
     key: readFileSync(process.env.SSL_KEY),

@@ -32,9 +32,25 @@ module.exports.homePage = function({ username, csrfToken, messages }) {
     </form>
   `;
   const messageList = function() {
+    const deleteForm = function(msg) {
+      return `
+      <form method="POST" action="/messages/delete">
+        <input type="hidden" name="_csrf" value="${csrfToken}"/>
+        <input type="hidden" name="message" value="${msg.message}"/>
+        <input type="hidden" name="ts" value="${msg.ts}"/>
+        <input type="hidden" name="username" value="${msg.username}" />
+        <button>delete</submit>
+      </form>
+    `
+   }
+
     return messages
-      .map(x => `<li><b>${x.username}:</b> ${x.message}</li>`)
-      .join('');
+      .map(x => {
+        return `
+          <li>
+          <b>${x.username}:</b>
+            ${x.message} -
+            ${ username !== x.username ? "" : deleteForm(x) }</li>`}).join('');
   };
 
   const newMessageForm = `
